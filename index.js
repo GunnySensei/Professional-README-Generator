@@ -1,8 +1,6 @@
-const { rejects } = require('assert');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const Choices = require('inquirer/lib/objects/choices');
-const { resolve } = require('path');
+let licenseLink = '';
 
 const promptUser = () => {
     console.log(`
@@ -87,8 +85,7 @@ const promptUser = () => {
         return repoData;
     }) 
     .then(repoData => {
-        const completedMarkdown = generatePage(repoData)
-        console.log(completedMarkdown);
+        const completedMarkdown = generatePage(repoData);
         writeFile(completedMarkdown);
     })
 
@@ -97,8 +94,10 @@ const promptUser = () => {
 
 const generatePage = repoData => {
     const { title, description, installation, usage, license, contributing, testsConfirm, tests, gitHubUser, email } = repoData;
+    console.log('this is the chosen license' + license);
+    const licenseChoice = checkLicense(license);
     return `
-${license}  
+${licenseChoice}  
 
 # ${title}  
 
@@ -123,7 +122,8 @@ ${usage}
 # License  
 ${license}  
 # Contributing  
-- How to contribute ${contributing}  
+- How to contribute:  
+-- ${contributing}  
 
 # Tests  
 - Tests are used: ${testsConfirm}  
@@ -146,5 +146,33 @@ const writeFile = (data) => {
         });
     };
 
+const checkLicense = licenseName => {
+    switch (licenseName) {
+        case 'GNU AGPLv3':
+            licenseLink = '[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)'
+            return licenseLink;
+        case 'GNU GPLv3' :
+            licenseLink = "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)"
+            return licenseLink;
+        case 'GNU LGPLv3' :
+            licenseLink = '[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)'
+            return licenseLink;
+        case 'Mozilla Public License 2.0':
+            licenseLink = '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)'
+            return licenseLink;
+        case 'Apache License 2.0':
+            licenseLink = '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
+            return licenseLink;
+        case 'MIT License': 
+            licenseLink = '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
+            return licenseLink;
+        case 'Boost Software License 1.0':
+            licenseLink = '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)'
+            return licenseLink;
+        case 'The Unlicense':
+            licenseLink = 'Unlicensed'
+            return licenseLink;
+    }
+}
 promptUser()
 
