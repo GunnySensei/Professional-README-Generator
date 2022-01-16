@@ -21,8 +21,13 @@
 # Usage  
 Anyone can use this program for their repository README creation. It's a great way to keep things organized and consistent.  
 
-# License  
-Apache License 2.0  
+# Example
+
+
+https://user-images.githubusercontent.com/34635697/149672304-5d6ba313-ebaa-4abd-99f9-e8853033459d.mp4
+
+
+  
 # Contributing  
 - How to contribute:  
 -- Ask me using the contact section below!  
